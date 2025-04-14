@@ -1,5 +1,4 @@
 #include <sodium.h>
-#include <sodium/crypto_secretbox.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -15,12 +14,38 @@ void encrypt_data(const unsigned char *plaintext,
     };
 }
 
+void encrypt_key(unsigned char *ciphertext,
+    const unsigned char *plaintext,
+    unsigned char nonce[crypto_box_NONCEBYTES],
+    const unsigned char foreign_public_key[crypto_box_PUBLICKEYBYTES],
+    const unsigned char private_key[crypto_box_SECRETKEYBYTES]
+) {
+    randombytes_buf(nonce, crypto_box_NONCEBYTES);
+    if (crypto_box_easy(ciphertext, plaintext, strlen(plaintext), nonce, foreign_public_key, private_key) != 0) {
+        fprintf(stderr, "Encryption failed\n");
+        return;
+    };
+}
+
 void decrypt_data(const unsigned char *ciphertext,
     unsigned char *plaintext,
     const unsigned char *nonce,
     const unsigned char key[crypto_secretbox_KEYBYTES]
 ) {
     if (crypto_secretbox_open_easy(plaintext, ciphertext, crypto_secretbox_MACBYTES + strlen(ciphertext), nonce, key) != 0) {
+        fprintf(stderr, "Decryption failed\n");
+        return;
+    }
+}
+
+void decrypt_key(
+    unsigned char *plaintext,
+    const unsigned char *ciphertext,
+    const unsigned char *nonce,
+    const unsigned char foreign_public_key[crypto_box_PUBLICKEYBYTES],
+    const unsigned char private_key[crypto_box_SECRETKEYBYTES]
+) {
+    if (crypto_box_open_easy(plaintext, ciphertext, crypto_box_MACBYTES + strlen(ciphertext), nonce, foreign_public_key, private_key) != 0) {
         fprintf(stderr, "Decryption failed\n");
         return;
     }
