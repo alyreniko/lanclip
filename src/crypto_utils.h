@@ -14,7 +14,7 @@
 void encrypt_data(
     unsigned char *ciphertext,
     const unsigned char *plaintext,
-    size_t plaintext_len,
+    const size_t plaintext_len,
     unsigned char nonce[crypto_secretbox_NONCEBYTES],
     const unsigned char key[crypto_secretbox_KEYBYTES]);
 
@@ -22,6 +22,7 @@ void encrypt_data(
  * Encrypts a key using public-key encryption.
  * @param ciphertext Output buffer for the encrypted key
  * @param plaintext Input buffer containing the key to encrypt
+ * @param plaintext_len Length of the plaintext buffer in bytes
  * @param nonce Unique nonce used for encryption (should never be reused)
  * @param foreign_public_key Public key of the recipient
  * @param private_key Private key of the sender
@@ -29,6 +30,7 @@ void encrypt_data(
 void encrypt_key(
     unsigned char *ciphertext,
     const unsigned char *plaintext,
+    const size_t plaintext_len,
     unsigned char nonce[crypto_box_NONCEBYTES],
     const unsigned char foreign_public_key[crypto_box_PUBLICKEYBYTES],
     const unsigned char private_key[crypto_box_SECRETKEYBYTES]);
@@ -50,15 +52,17 @@ void decrypt_data(
 
 /**
  * Decrypts a key that was previously encrypted with encrypt_key.
- * @param plaintext Output buffer for the decrypted key
+ * @param decrypted Output buffer for the decrypted key
  * @param ciphertext Input buffer containing the encrypted key
+ * @param ciphertext_len Length of the ciphertext buffer in bytes
  * @param nonce Unique nonce that was used for encryption
  * @param foreign_public_key Public key of the sender
  * @param private_key Private key of the recipient
  */
 void decrypt_key(
-    unsigned char *plaintext,
+    unsigned char *decrypted,
     const unsigned char *ciphertext,
+    const size_t ciphertext_len,
     const unsigned char *nonce,
     const unsigned char foreign_public_key[crypto_box_PUBLICKEYBYTES],
     const unsigned char private_key[crypto_box_SECRETKEYBYTES]);

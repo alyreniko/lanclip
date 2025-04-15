@@ -16,14 +16,16 @@ void encrypt_data(
     }
 }
 
-void encrypt_key(unsigned char *ciphertext,
+void encrypt_key(
+    unsigned char *ciphertext,
     const unsigned char *plaintext,
+    const size_t plaintext_len,
     unsigned char nonce[crypto_box_NONCEBYTES],
     const unsigned char foreign_public_key[crypto_box_PUBLICKEYBYTES],
     const unsigned char private_key[crypto_box_SECRETKEYBYTES]
 ) {
     randombytes_buf(nonce, crypto_box_NONCEBYTES);
-    if (crypto_box_easy(ciphertext, plaintext, strlen(plaintext), nonce, foreign_public_key, private_key) != 0) {
+    if (crypto_box_easy(ciphertext, plaintext, plaintext_len, nonce, foreign_public_key, private_key) != 0) {
         fprintf(stderr, "Encryption failed\n");
         return;
     };
@@ -43,13 +45,14 @@ void decrypt_data(
 }
 
 void decrypt_key(
-    unsigned char *plaintext,
+    unsigned char *decrypted,
     const unsigned char *ciphertext,
+    const size_t ciphertext_len,
     const unsigned char *nonce,
     const unsigned char foreign_public_key[crypto_box_PUBLICKEYBYTES],
     const unsigned char private_key[crypto_box_SECRETKEYBYTES]
 ) {
-    if (crypto_box_open_easy(plaintext, ciphertext, crypto_box_MACBYTES + strlen(ciphertext), nonce, foreign_public_key, private_key) != 0) {
+    if (crypto_box_open_easy(decrypted, ciphertext, ciphertext_len, nonce, foreign_public_key, private_key) != 0) {
         fprintf(stderr, "Decryption failed\n");
         return;
     }
