@@ -5,7 +5,7 @@
 void encrypt_data(
     unsigned char *ciphertext,
     const unsigned char *plaintext,
-    size_t plaintext_len,
+    const size_t plaintext_len,
     unsigned char nonce[crypto_secretbox_NONCEBYTES],
     const unsigned char key[crypto_secretbox_KEYBYTES]
 ) {
