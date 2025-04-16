@@ -14,6 +14,7 @@ Creating a cross-platform C application that:
 - [x] Symmetric data encryption
 - [x] Asymmetric data encryption
 - [ ] Generating a symmetric key for the session
+- [x] Storing public and private keys
 - [ ] Encrypting the symmetric key with the recipient's public key
 - [ ] Decrypting the symmetric key with the private key
 
