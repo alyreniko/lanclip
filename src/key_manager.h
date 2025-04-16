@@ -4,25 +4,25 @@
 #include <sodium.h>
 
 /*
- * Save keys to a file.
+ * Save keypair to a file.
  * @param filename The name of the file to save the keys to.
  * @param private_key The private key to save.
  * @param public_key The public key to save.
  * @return 0 on success, -1 on failure.
  */
-int save_keys(
+int save_keypair(
     const char *filename,
     const unsigned char *private_key,
     const unsigned char *public_key);
 
 /*
- * Load keys from a file.
+ * Load keypair from a file.
  * @param filename The name of the file to load the keys from.
  * @param private_key The buffer to store the private key in.
  * @param public_key The buffer to store the public key in.
  * @return 0 on success, -1 on failure.
  */
-int load_keys(
+int load_keypair(
     const char *filename,
     unsigned char *private_key,
     unsigned char *public_key);

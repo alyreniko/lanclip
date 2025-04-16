@@ -3,7 +3,7 @@
 #include <sodium/crypto_box.h>
 #include <stdio.h>
 
-int save_keys(const char *filename, const unsigned char *private_key, const unsigned char *public_key) {
+int save_keypair(const char *filename, const unsigned char *private_key, const unsigned char *public_key) {
     FILE *file = fopen(filename, "wb");
     if (file == NULL) {
         fprintf(stderr, "Failed to open file: %s\n", filename);
@@ -28,7 +28,7 @@ int save_keys(const char *filename, const unsigned char *private_key, const unsi
     return 0;
 }
 
-int load_keys(const char *filename, unsigned char *private_key, unsigned char *public_key) {
+int load_keypair(const char *filename, unsigned char *private_key, unsigned char *public_key) {
     FILE *file = fopen(filename, "rb");
     if (file == NULL) {
         fprintf(stderr, "Failed to open file: %s\n", filename);
