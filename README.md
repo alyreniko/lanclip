@@ -31,7 +31,9 @@ Creating a cross-platform C application that:
 ## 📋 Clipboard
 - [x] Reading clipboard on Linux
 - [ ] Reading clipboard on Windows
-- [ ] Inserting received content into the local clipboard
+- [x] Insert content into clipboard on Linux
+- [ ] Insert content into clipboard on Windows
+- [x] Inserting received content into the local clipboard
 
 ---
 
