@@ -14,4 +14,12 @@
  */
 void get_clipboard(char *dest, size_t max_len);
 
+/**
+ * set_clipboard - Sets the contents of the clipboard.
+ * @text: Pointer to the text to be set in the clipboard.
+ *
+ * This function sets the contents of the clipboard to the provided text.
+ */
+void set_clipboard(const char *text);
+
 #endif
