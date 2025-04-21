@@ -36,3 +36,30 @@ int create_tcp_socket(int *port) {
     *port = ntohs(server_addr.sin_port);
     return tcp_socket;
 }
+
+void start_listening(int socket_fd) {
+    if (listen(socket_fd, 5) < 0) {
+        fprintf(stderr, "Listening failed\n");
+        close(socket_fd);
+        exit(EXIT_FAILURE);
+    }
+    printf("Server is listening...\n");
+}
+
+int accept_connection(int socket_fd) {
+    struct sockaddr_in client_addr;
+    socklen_t client_len = sizeof(client_addr);
+
+    int client_socket = accept(socket_fd, (struct sockaddr*)&client_addr, &client_len);
+    if (client_socket < 0) {
+        fprintf(stderr, "Accepting connection failed\n");
+        close(socket_fd);
+        exit(EXIT_FAILURE);
+    }
+
+    char client_ip[INET_ADDRSTRLEN];
+    inet_ntop(AF_INET, &client_addr.sin_addr, client_ip, sizeof(client_ip));
+    printf("Connection accepted from %s:%d\n", client_ip, ntohs(client_addr.sin_port));
+
+    return client_socket;
+}
