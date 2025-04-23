@@ -34,7 +34,7 @@ int accept_connection(int socket_fd);
  * @param server_port Port number of the server to connect to.
  * @return File descriptor of the connected socket.
  */
-int connect_to_server(
+int connect_to_tcp_server(
     const char *server_ip,
     const int server_port);
 

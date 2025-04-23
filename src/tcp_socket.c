@@ -64,7 +64,7 @@ int accept_connection(int socket_fd) {
     return client_socket;
 }
 
-int connect_to_server(const char *server_ip, const int server_port) {
+int connect_to_tcp_server(const char *server_ip, const int server_port) {
     int client_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (client_socket < 0) {
         fprintf(stderr, "Socket creation failed\n");
