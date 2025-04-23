@@ -7,7 +7,6 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-
 int create_tcp_socket(int *port) {
     int tcp_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (tcp_socket < 0) {
@@ -61,6 +60,33 @@ int accept_connection(int socket_fd) {
     char client_ip[INET_ADDRSTRLEN];
     inet_ntop(AF_INET, &client_addr.sin_addr, client_ip, sizeof(client_ip));
     printf("Connection accepted from %s:%d\n", client_ip, ntohs(client_addr.sin_port));
+
+    return client_socket;
+}
+
+int connect_to_server(const char *server_ip, const int server_port) {
+    int client_socket = socket(AF_INET, SOCK_STREAM, 0);
+    if (client_socket < 0) {
+        fprintf(stderr, "Socket creation failed\n");
+        exit(EXIT_FAILURE);
+    }
+
+    struct sockaddr_in server_addr;
+    memset(&server_addr, 0, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(server_port);
+
+    if (inet_pton(AF_INET, server_ip, &server_addr.sin_addr) <= 0) {
+        fprintf(stderr, "Invalid address\n");
+        close(client_socket);
+        exit(EXIT_FAILURE);
+    }
+
+    if (connect(client_socket, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
+        fprintf(stderr, "Connection to server failed\n");
+        close(client_socket);
+        exit(EXIT_FAILURE);
+    }
 
     return client_socket;
 }
